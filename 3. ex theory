@@ -1,0 +1,7 @@
+What does the return type of a function indicate?
+     - The type of the return defines the kind of data that can be returned and
+       it defines and constrains the data type of the value returned from a subroutine or method.
+
+What does returning void mean?
+     -Void means that the method does not return any values. If a method does not have void, it must return something (int, String, double, etc.)
+      A function that returns void is essentially one that doesn't return anything.
