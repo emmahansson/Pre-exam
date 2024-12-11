@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function prototypes
+void PrintIntroduction(char []);
+int InputForArraySize(char []);
+void InputForArray(int, int []);
+void ConvertNumbers(int, int [], char [][5], char [][5]);
+void OutputResults(int, int [], char [][5], char [][5]);
+
+int main(void) {
+    // Input
+    PrintIntroduction("The program will convert positive integers to base 7 and base 16.\n");
+    int n = InputForArraySize("Enter the number of elements in the array (0 < n < 11): ");
+    int S[n];
+    InputForArray(n, S);
+
+    // Process
+    char base7[n][5];
+    char base16[n][5];
+    
+    ConvertNumbers(n, S, base7, base16);
+
+    // Output
+    OutputResults(n, S, base7, base16);
+
+    return 0;
+}
+
+void PrintIntroduction(char message[]) {
+    printf("%s", message);
+}
+
+int InputForArraySize(char prompt[]) {
+    int value;
+    while (1) {
+        printf("%s", prompt);
+        if (scanf("%d", &value) == 1 && value > 0 && value <= 10) {
+            // Valid input
+            break;
+        } else {
+            // Invalid input
+            printf("Invalid input. Please enter a numeric value between 1 and 10.\n");
+            // Clear the input buffer
+            while (getchar() != '\n'); // Discard invalid input
+        }
+    }
+    return value;
+}
+
+void InputForArray(int n, int S[]) {
+    printf("Enter the elements of the array:\n");
+    for (int i = 0; i < n; i++) {
+        while (1) {
+            printf("Element [%d]: ", i);
+            if (scanf("%d", &S[i]) == 1 && S[i] > 0 && S[i] < 6666) {
+                // Valid input
+                break;
+            } else {
+                // Invalid input
+                printf("Invalid input. Please enter a positive integer less than 6666.\n");
+                // Clear the input buffer
+                while (getchar() != '\n'); // Discard invalid input
+            }
+        }
+    }
+}
+
+void ConvertNumbers(int n, int S[], char base7[][5], char base16[][5]) {
+    for (int i = 0; i < n; i++) {
+        // Convert to base 7
+        int number = S[i];
+        int j = 0;
+        while (number > 0) {
+            base7[i][j] = (number % 7) + '0';
+            number /= 7;
+            j++;
+        }
+        base7[i][j] = '\0';
+        // Reverse the string for base 7
+        for (int k = 0; k < j / 2; k++) {
+            char temp = base7[i][k];
+            base7[i][k] = base7[i][j - k - 1];
+            base7[i][j - k - 1] = temp;
+        }
+
+        // Convert to base 16
+        number = S[i];
+        j = 0;
+        while (number > 0) {
+            int remainder = number % 16;
+            if (remainder < 10) {
+                base16[i][j] = remainder + '0';
+            } else {
+                base16[i][j] = remainder - 10 + 'A';
+            }
+            number /= 16;
+            j++;
+        }
+        base16[i][j] = '\0';
+        // Reverse the string for base 16
+        for (int k = 0; k < j / 2; k++) {
+            char temp = base16[i][k];
+            base16[i][k] = base16[i][j - k - 1];
+            base16[i][j - k - 1] = temp;
+        }
+    }
+}
+
+void OutputResults(int n, int S[], char base7[][5], char base16[][5]) {
+    for (int i = 0; i < n; i++) {
+        printf(" %d ....... %s ....... %s\n", S[i], base7[i], base16[i]);
+    }
+}
