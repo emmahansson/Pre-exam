@@ -4,4 +4,4 @@ What does the return type of a function indicate?
 
 What does returning void mean?
      -Void means that the method does not return any values. If a method does not have void, it must return something (int, String, double, etc.)
-      A function that returns void is essentially one that doesn't return anything.
+      A void function performs a task, and then control returns back to the caller--but, it does not return a value.
