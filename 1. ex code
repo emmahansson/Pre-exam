@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function prototypes
+void PrintIntroduction(char []);
+int InputForDimensions(char []);
+void InputForEntries(int n, int m, int matrix[n][m]);
+void FindSumForColumn(int n, int m, int matrix[n][m], int sum[]);
+void OutputResult(int sum[], int m);
+
+int main(void) {
+    // Input
+    PrintIntroduction("The program will calculate the sum of elements for every column, below column 5.\n");
+    int n = InputForDimensions("Enter the number of rows (0 < n < 11): ");
+    int m = InputForDimensions("Enter the number of columns (0 < m < 16): ");
+
+    int matrix[n][m];
+    InputForEntries(n, m, matrix);
+
+    // Process
+    int sum[5] = {0}; // Array to hold sums for columns 0 to 4
+    FindSumForColumn(n, m, matrix, sum);
+
+    // Output 
+    OutputResult(sum, m);
+
+    return 0;
+}
+
+void PrintIntroduction(char message[]) {
+    printf("%s", message);
+}
+
+int InputForDimensions(char prompt[]) {
+    int value;
+    while (1) {
+        printf("%s", prompt);
+        if (scanf("%d", &value) == 1 && value > 0 && value <= 10) {
+            // Valid input
+            break;
+        } else {
+            // Invalid input
+            printf("Invalid input. Please enter a numeric value between 1 and 10.\n");
+            // Clear the input buffer
+            while (getchar() != '\n'); // Discard invalid input
+        }
+    }
+    return value;
+}
+
+void InputForEntries(int n, int m, int matrix[n][m]) {
+    printf("Enter the elements of the matrix:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            while (1) {
+                printf("Element [%d][%d]: ", i, j);
+                if (scanf("%d", &matrix[i][j]) == 1) {
+                    // Valid input
+                    break;
+                } else {
+                    // Invalid input
+                    printf("Invalid input. Please enter a numeric value.\n");
+                    // Clear the input buffer
+                    while (getchar() != '\n'); // Discard invalid input
+                }
+            }
+        }
+    }
+}
+
+void FindSumForColumn(int n, int m, int matrix[n][m], int sum[]) {
+    for (int j = 0; j < m && j < 5; j++) { // Calculate sums only for the first 5 columns
+        for (int i = 0; i < n; i++) {
+            sum[j] += matrix[i][j];
+        }
+    }
+}
+
+void OutputResult(int sum[], int m) {
+    printf("Sum of elements for each column (up to column 5):\n");
+    for (int j = 0; j < m && j < 5; j++) { // Output only for the first 5 columns
+        printf("Column %d: %d\n", j + 1, sum[j]);
+    }
+}
